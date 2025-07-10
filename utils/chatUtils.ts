@@ -1,4 +1,4 @@
-export const getRandomResponse = (input: string) => {
+export const getRandomResponse = () => {
   const botResponses = [
     'Hello! How can I assist you today?',
     'Hi there! What do you need help with?',
