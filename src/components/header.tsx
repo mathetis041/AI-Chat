@@ -1,6 +1,13 @@
 import logo from "../assets/images/favicon.ico";
 import { Moon, Sparkle, Sun } from "lucide-react";
 
+// ==================================================
+// Author: Matthew Vincent
+// Project: AI Chat App
+// GitHub: https://github.com/mathetis041
+// Date: July 2025
+// ==================================================
+
 type HeaderProps = {
   toggleDarkMode: () => void;
   darkMode: boolean;

@@ -1,5 +1,12 @@
 import { Bot, User } from "lucide-react";
 
+// ==================================================
+// Author: Matthew Vincent
+// Project: AI Chat App
+// GitHub: https://github.com/mathetis041
+// Date: July 2025
+// ==================================================
+
 type Message = {
   id: number;
   text: string;

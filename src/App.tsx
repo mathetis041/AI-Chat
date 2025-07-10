@@ -6,6 +6,13 @@ import { useState } from "react";
 import { formatTime } from "../utils/chatUtils";
 import { generateContent } from "./services/geminiApi";
 
+// ==================================================
+// Author: Matthew Vincent
+// Project: AI Chat App
+// GitHub: https://github.com/mathetis041
+// Date: July 2025
+// ==================================================
+
 type Message = {
   id: number;
   text: string;
