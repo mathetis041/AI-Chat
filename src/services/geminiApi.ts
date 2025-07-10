@@ -9,6 +9,10 @@ export const generateContent = async (message: string): Promise<string> => {
   }
 
   try {
+    console.log('Calling Gemini API with message:', message);
+    console.log('API URL:', GEMINI_API_URL);
+    console.log('API Key present?', !!GEMINI_API_KEY);
+
     const response = await fetch(GEMINI_API_URL, {
       method: 'POST',
       headers: {
@@ -17,11 +21,7 @@ export const generateContent = async (message: string): Promise<string> => {
       body: JSON.stringify({
         contents: [
           {
-            parts: [
-              {
-                text: message,
-              },
-            ],
+            parts: [{ text: message }],
           },
         ],
       }),
@@ -36,12 +36,14 @@ export const generateContent = async (message: string): Promise<string> => {
     }
 
     const data = await response.json();
-    if (!data || !data.candidates || data.candidates.length === 0) {
-      throw new Error('No candidates found in response');
+    console.log('Gemini response:', data);
+
+    const responseText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!responseText) {
+      throw new Error('No valid response text found in candidates');
     }
 
-    console.log(data);
-    return data.candidates[0].content.parts[0].text;
+    return responseText;
   } catch (error) {
     console.error('Error generating content:', error);
     throw new Error('Failed to generate content');
