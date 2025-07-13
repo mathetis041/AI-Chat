@@ -1,10 +1,10 @@
-import ChatInput from "./components/chatInput";
-import ChatMessage from "./components/chatMessage";
-import Header from "./components/header";
-import LoadingIndicator from "./components/loadingIndicator";
-import { useState } from "react";
-import { formatTime } from "../utils/chatUtils";
-import { generateContent } from "./services/geminiApi";
+import ChatInput from './components/chatInput';
+import ChatMessage from './components/chatMessage';
+import Header from './components/header';
+import LoadingIndicator from './components/loadingIndicator';
+import { useEffect, useRef, useState } from 'react';
+import { formatTime } from '../utils/chatUtils';
+import { generateContent } from './services/geminiApi';
 
 // ==================================================
 // Author: Matthew Vincent
@@ -36,6 +36,12 @@ const App = () => {
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
+
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   const handleSendMessage = async () => {
     if (!input.trim()) return;
@@ -87,6 +93,7 @@ const App = () => {
             />
           ))}
           {isLoading ? <LoadingIndicator darkMode={darkMode} /> : null}
+          <div ref={bottomRef} />
         </div>
       </div>
       <ChatInput
