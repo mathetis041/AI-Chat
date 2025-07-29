@@ -20,28 +20,95 @@ type Message = {
   timestamp: Date;
 };
 
-const App = () => {
-  const [darkMode, setDarkMode] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [input, setInput] = useState<string>('');
-  const [messages, setMessages] = useState<Message[]>([
+const getInitialMessages = (): Message[] => {
+  const savedMessages = localStorage.getItem('chat_messages');
+  if (savedMessages) {
+    try {
+      return JSON.parse(savedMessages).map((msg: Message) => ({
+        ...msg,
+        timestamp: new Date(msg.timestamp),
+      }));
+    } catch (err) {
+      console.error('Failed to parse saved messages:', err);
+    }
+  }
+  return [
     {
       id: 1,
       text: 'Hello, how can I help you today?',
       sender: 'bot',
       timestamp: new Date(),
     },
-  ]);
+  ];
+};
 
+const getInitialDarkMode = (): boolean => {
+  return localStorage.getItem('dark_mode') === 'true';
+};
+
+const App = () => {
+  const [darkMode, setDarkMode] = useState<boolean>(getInitialDarkMode);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [input, setInput] = useState<string>('');
+  const [messages, setMessages] = useState<Message[]>(getInitialMessages);
+
+  // Toggle dark mode
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
 
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
+  // Scroll to bottom on new message
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  // Load messages from localStorage on mount
+  useEffect(() => {
+    const savedMessages = localStorage.getItem('chat_messages');
+    if (savedMessages) {
+      try {
+        const parsed: Message[] = JSON.parse(savedMessages).map(
+          (msg: Message) => ({
+            ...msg,
+            timestamp: new Date(msg.timestamp), // convert string to Date
+          }),
+        );
+        setMessages(parsed);
+      } catch (err) {
+        console.error('Failed to parse messages from localStorage:', err);
+        // Fallback default message
+        setMessages([
+          {
+            id: 1,
+            text: 'Hello, how can I help you today?',
+            sender: 'bot',
+            timestamp: new Date(),
+          },
+        ]);
+      }
+    } else {
+      setMessages([
+        {
+          id: 1,
+          text: 'Hello, how can I help you today?',
+          sender: 'bot',
+          timestamp: new Date(),
+        },
+      ]);
+    }
+  }, []);
+
+  // Persist messages to localStorage
+  useEffect(() => {
+    localStorage.setItem('chat_messages', JSON.stringify(messages));
+  }, [messages]);
+
+  // Persist dark mode preference to localStorage
+  useEffect(() => {
+    localStorage.setItem('dark_mode', JSON.stringify(darkMode));
+  }, [darkMode]);
 
   const handleSendMessage = async () => {
     if (!input.trim()) return;
