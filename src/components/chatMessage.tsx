@@ -1,4 +1,4 @@
-import { Bot, User } from "lucide-react";
+import { Bot, User } from 'lucide-react';
 
 // ==================================================
 // Author: Matthew Vincent
@@ -7,7 +7,7 @@ import { Bot, User } from "lucide-react";
 // Date: July 2025
 // ==================================================
 
-type Message = {
+export type Message = {
   id: number;
   text: string;
   sender: string;

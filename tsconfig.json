@@ -48,7 +48,7 @@
     "noFallthroughCasesInSwitch": true
   },
   /** 需要检测的文件 */
-  "include": ["src"],
+  "include": ["src", "types"],
   /** 为文件进行不同配置 */
   "references": [
     {

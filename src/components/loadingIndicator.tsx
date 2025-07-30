@@ -1,4 +1,4 @@
-import { Bot } from "lucide-react";
+import { Bot } from 'lucide-react';
 
 type LoadingIndicatorProps = {
   darkMode: boolean;
@@ -31,7 +31,7 @@ const LoadingIndicator = ({ darkMode }: LoadingIndicatorProps) => {
               className={`h-2.5 w-2.5 ${
                 darkMode ? 'bg-gray-500' : 'bg-indigo-400'
               } animate-bounce rounded-full`}
-              style={{ animationDelay: '150s' }}
+              style={{ animationDelay: '150ms' }}
             ></div>
             <div
               className={`h-2.5 w-2.5 ${
